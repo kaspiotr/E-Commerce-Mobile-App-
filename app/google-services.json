@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1034121252626",
+    "project_id": "e-commerce-mobile-app-86753",
+    "storage_bucket": "e-commerce-mobile-app-86753.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1034121252626:android:459ee9b9a46429cd8badcb",
+        "android_client_info": {
+          "package_name": "pro.kaspiotr.ecommercemobileapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1034121252626-dn6esoulsaahcahrj58d5u5755th7j6b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAjrOdbBIjYF3r-eFrjPWyG4JnKFJlFxwA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1034121252626-dn6esoulsaahcahrj58d5u5755th7j6b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
