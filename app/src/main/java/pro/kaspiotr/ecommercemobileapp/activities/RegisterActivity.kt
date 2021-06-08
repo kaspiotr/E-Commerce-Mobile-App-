@@ -6,13 +6,13 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.WindowInsets
 import android.view.WindowManager
-import kotlinx.android.synthetic.main.activity_login.*
+import kotlinx.android.synthetic.main.activity_register.*
 import pro.kaspiotr.ecommercemobileapp.R
 
-class LoginActivity : AppCompatActivity() {
+class RegisterActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
+        setContentView(R.layout.activity_register)
 
         @Suppress("DEPRECATION")
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
@@ -24,10 +24,11 @@ class LoginActivity : AppCompatActivity() {
             )
         }
 
-        tv_register.setOnClickListener {
-            // Launch the register screen when the user selects 'Register' text.
-            val intent = Intent(this@LoginActivity, RegisterActivity::class.java)
+        tv_login.setOnClickListener {
+            // Launch the login screen when the user selects 'Login' text.
+            val intent = Intent(this@RegisterActivity, LoginActivity::class.java)
             startActivity(intent)
         }
+
     }
 }
