@@ -6,6 +6,10 @@ import android.os.Bundle
 import android.text.TextUtils
 import android.view.WindowInsets
 import android.view.WindowManager
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.auth.AuthResult
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import kotlinx.android.synthetic.main.activity_register.*
 import pro.kaspiotr.ecommercemobileapp.R
 
@@ -33,7 +37,7 @@ class RegisterActivity : BaseActivity() {
         }
 
         btn_register.setOnClickListener {
-            validateRegisterDetails()
+            registerUser()
         }
     }
 
@@ -86,10 +90,37 @@ class RegisterActivity : BaseActivity() {
                 false
             }
             else -> {
-                showErrorSnackBar(resources.getString(R.string.registry_successful), false)
                 true
             }
         }
+    }
+
+    private fun registerUser() {
+
+        if (validateRegisterDetails()) {
+            val email: String = et_email.text.toString().trim { it <= ' ' }
+            val password: String = et_email.text.toString().trim {it <= ' ' }
+
+            // Create and instance and create a register a user with email and password
+            FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(
+                    OnCompleteListener<AuthResult> { task ->
+                        // If registration is successfully done
+                        if (task.isSuccessful) {
+                            // Register user in Firebase
+                            val firebaseUser: FirebaseUser = task.result!!.user!!
+
+                            showErrorSnackBar(
+                                "You are registered successfully. Your user id is ${firebaseUser.uid}",
+                                false
+                            )
+                        } else {
+                            // If the registering is not successful then show error message.
+                            showErrorSnackBar(task.exception!!.message.toString(), true)
+                        }
+                    })
+        }
+
     }
 
 }
