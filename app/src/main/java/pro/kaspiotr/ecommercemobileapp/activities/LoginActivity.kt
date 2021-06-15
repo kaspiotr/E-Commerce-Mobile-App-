@@ -7,6 +7,7 @@ import android.text.TextUtils
 import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_login.et_email
 import kotlinx.android.synthetic.main.activity_login.et_password
@@ -28,6 +29,12 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
             )
         }
 
+        // Click event assigned to Forgot Password text
+        tv_forgot_password.setOnClickListener(this)
+        // Click event assigned to Login button
+        btn_login.setOnClickListener(this)
+        // Click event assigned to Register text
+        tv_register.setOnClickListener(this)
     }
 
     // In Login screen the clickable components are Login Button, ForgotPassword text and Register Text
@@ -40,7 +47,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                 }
 
                 R.id.btn_login -> {
-                    validateLoginDetails()
+                    logInRegisteredUser()
                 }
 
                 R.id.tv_register -> {
@@ -63,9 +70,32 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                 false
             }
             else -> {
-                showErrorSnackBar("Your details are valid.", false)
                 true
             }
+        }
+    }
+
+    private fun logInRegisteredUser() {
+        if (validateLoginDetails()) {
+            // Show progress dialog
+            showProgressDialog(resources.getString(R.string.please_wait))
+
+            val email = et_email.text.toString().trim { it <= ' ' }
+            val password = et_password.text.toString().trim { it <= ' ' }
+
+            // Log in using FirebaseAuth
+            FirebaseAuth.getInstance().signInWithEmailLink(email, password)
+                .addOnCompleteListener { task ->
+
+                    hideProgressDialog()
+
+                    if (task.isSuccessful) {
+                        // TODO - Send user to Main Activity
+                        showErrorSnackBar("You are logged in successfully.", false)
+                    } else {
+                        showErrorSnackBar(task.exception!!.message.toString(), true)
+                    }
+                }
         }
     }
 }
