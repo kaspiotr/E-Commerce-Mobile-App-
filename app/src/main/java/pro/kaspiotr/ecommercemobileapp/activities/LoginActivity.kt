@@ -84,7 +84,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
             val password = et_password.text.toString().trim { it <= ' ' }
 
             // Log in using FirebaseAuth
-            FirebaseAuth.getInstance().signInWithEmailLink(email, password)
+            FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener { task ->
 
                     hideProgressDialog()
