@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
@@ -13,6 +14,8 @@ import kotlinx.android.synthetic.main.activity_login.et_email
 import kotlinx.android.synthetic.main.activity_login.et_password
 import kotlinx.android.synthetic.main.activity_register.*
 import pro.kaspiotr.ecommercemobileapp.R
+import pro.kaspiotr.ecommercemobileapp.firestore.FirestoreClass
+import pro.kaspiotr.ecommercemobileapp.models.User
 
 class LoginActivity : BaseActivity(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,6 +38,19 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         btn_login.setOnClickListener(this)
         // Click event assigned to Register text
         tv_register.setOnClickListener(this)
+    }
+
+    fun userLoggedInSuccess(user: User) {
+        hideProgressDialog()
+
+        // Print user details in the log
+        Log.i("First name", user.firstName)
+        Log.i("Last name", user.lastName)
+        Log.i("Email", user.email)
+
+        // Redirect the user to the main screen after the log in
+        startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+        finish()
     }
 
     // In Login screen the clickable components are Login Button, ForgotPassword text and Register Text
@@ -88,13 +104,10 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
             // Log in using FirebaseAuth
             FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener { task ->
-
-                    hideProgressDialog()
-
                     if (task.isSuccessful) {
-                        // TODO - Send user to Main Activity
-                        showErrorSnackBar("You are logged in successfully.", false)
+                        FirestoreClass().getUserDetails(this@LoginActivity)
                     } else {
+                        hideProgressDialog()
                         showErrorSnackBar(task.exception!!.message.toString(), true)
                     }
                 }
