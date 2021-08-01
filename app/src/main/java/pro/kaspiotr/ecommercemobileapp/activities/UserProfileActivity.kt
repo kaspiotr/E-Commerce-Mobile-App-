@@ -19,6 +19,7 @@ import kotlinx.android.synthetic.main.activity_user_profile.*
 import pro.kaspiotr.ecommercemobileapp.R
 import pro.kaspiotr.ecommercemobileapp.models.User
 import pro.kaspiotr.ecommercemobileapp.utils.Constants
+import pro.kaspiotr.ecommercemobileapp.utils.GlideLoader
 import java.io.IOException
 
 class UserProfileActivity : BaseActivity(), View.OnClickListener {
@@ -89,8 +90,7 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener {
                     try {
                         // The uri of selected image from phone storage.
                         val selectedImageFileUri = data.data!!
-
-                        iv_user_photo.setImageURI(Uri.parse(selectedImageFileUri.toString()))
+                        GlideLoader(this).loadUserPicture(selectedImageFileUri, iv_user_photo)
                     } catch (e: IOException) {
                         e.printStackTrace()
                         Toast.makeText(
