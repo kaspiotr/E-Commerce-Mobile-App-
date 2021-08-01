@@ -35,4 +35,5 @@
     <string name="rb_lbl_male">MALE</string>
     <string name="rb_lbl_female">FEMALE</string>
     <string name="btn_lbl_save">Save</string>
+    <string name="read_storage_permission_denied">You\'ve just denied permission for storage. From now on, you can allow it from settings.</string>
 </resources>
