@@ -16,6 +16,7 @@ import kotlinx.android.synthetic.main.activity_register.*
 import pro.kaspiotr.ecommercemobileapp.R
 import pro.kaspiotr.ecommercemobileapp.firestore.FirestoreClass
 import pro.kaspiotr.ecommercemobileapp.models.User
+import pro.kaspiotr.ecommercemobileapp.utils.Constants
 
 class LoginActivity : BaseActivity(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,6 +52,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         if (user.profileCompleted == 0) {
             // If the user profile is incomplete the launch the UserProfileActvity
             val intent = Intent(this@LoginActivity, UserProfileActivity::class.java)
+            intent.putExtra(Constants.EXTRA_USER_DETAILS, user)
             startActivity(intent)
         } else {
             // Redirect the user to the main screen after the log in
