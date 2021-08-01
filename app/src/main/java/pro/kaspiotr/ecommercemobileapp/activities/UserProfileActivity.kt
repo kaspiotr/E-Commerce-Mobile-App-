@@ -1,8 +1,12 @@
 package pro.kaspiotr.ecommercemobileapp.activities
 
 import android.Manifest
+import android.app.Activity
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
@@ -15,6 +19,7 @@ import kotlinx.android.synthetic.main.activity_user_profile.*
 import pro.kaspiotr.ecommercemobileapp.R
 import pro.kaspiotr.ecommercemobileapp.models.User
 import pro.kaspiotr.ecommercemobileapp.utils.Constants
+import java.io.IOException
 
 class UserProfileActivity : BaseActivity(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,7 +50,7 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener {
                     // Check if the permissions already allowed or we need to request for it.
                     // Firstly, the READ_EXTERNAL_STORAGE permission is checked and if it is allowed
                     if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                        showErrorSnackBar("You already have the storage permission.", false)
+                        Constants.showImageChooser(this)
                     } else {
                         // Request permissions to be granted to this application. These permissions must be requested in manifest, they should be
                         // granted to the app, and they should have protected level.
@@ -67,12 +72,38 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener {
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (grantResults.isEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            showErrorSnackBar("The permission is granted.", false)
+            Constants.showImageChooser(this)
         } else {
             Toast.makeText(
                 this, resources.getString(R.string.read_storage_permission_denied),
                 Toast.LENGTH_LONG
             ).show()
+        }
+    }
+
+    public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == Constants.PICK_IMAGE_REQUEST_CODE) {
+                if (data != null) {
+                    try {
+                        // The uri of selected image from phone storage.
+                        val selectedImageFileUri = data.data!!
+
+                        iv_user_photo.setImageURI(Uri.parse(selectedImageFileUri.toString()))
+                    } catch (e: IOException) {
+                        e.printStackTrace()
+                        Toast.makeText(
+                            this@UserProfileActivity,
+                            resources.getString(R.string.image_selection_failed),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+            }
+        } else if (resultCode == Activity.RESULT_CANCELED) {
+            // A log is printed when user close or cancel the image selection.
+            Log.e("Request Cancelled", "Image selection cancelled")
         }
     }
 }
