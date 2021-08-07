@@ -4,6 +4,7 @@ import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
@@ -25,7 +26,8 @@ import java.io.IOException
 
 class UserProfileActivity : BaseActivity(), View.OnClickListener {
 
-    private lateinit var mUserDetails: User;
+    private lateinit var mUserDetails: User
+    private var mSelectedImageFileUri: Uri? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,6 +70,9 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener {
                 }
 
                 R.id.btn_submit -> {
+                    showProgressDialog(resources.getString(R.string.please_wait))
+                    FirestoreClass().uploadImageToCloudStorage(this, mSelectedImageFileUri)
+/*
                     if (validateUserProfileDetails()) {
                         val userHashMap = HashMap<String, Any>()
                         val mobileNumber = et_mobile_number.text.toString().trim { it <= ' ' }
@@ -83,7 +88,7 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener {
                         userHashMap[Constants.GENDER] = gender
                         showProgressDialog(resources.getString(R.string.please_wait))
                         FirestoreClass().updateUserProfileData(this, userHashMap)
-                    }
+                    }*/
                 }
             }
         }
@@ -125,8 +130,8 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener {
                 if (data != null) {
                     try {
                         // The uri of selected image from phone storage.
-                        val selectedImageFileUri = data.data!!
-                        GlideLoader(this).loadUserPicture(selectedImageFileUri, iv_user_photo)
+                        mSelectedImageFileUri = data.data!!
+                        GlideLoader(this).loadUserPicture(mSelectedImageFileUri!!, iv_user_photo)
                     } catch (e: IOException) {
                         e.printStackTrace()
                         Toast.makeText(
@@ -153,5 +158,14 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener {
                 true
             }
         }
+    }
+
+    fun imageUploadSuccess(imageUrl: String) {
+        hideProgressDialog()
+        Toast.makeText(
+            this@UserProfileActivity,
+            "Your image was uploaded successfully. Image URL is $imageUrl",
+            Toast.LENGTH_SHORT
+        ).show()
     }
 }

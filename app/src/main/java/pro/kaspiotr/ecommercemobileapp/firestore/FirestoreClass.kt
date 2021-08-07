@@ -3,10 +3,13 @@ package pro.kaspiotr.ecommercemobileapp.firestore
 import android.app.Activity
 import android.content.Context
 import android.content.SharedPreferences
+import android.net.Uri
 import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import pro.kaspiotr.ecommercemobileapp.activities.LoginActivity
 import pro.kaspiotr.ecommercemobileapp.activities.RegisterActivity
 import pro.kaspiotr.ecommercemobileapp.activities.UserProfileActivity
@@ -107,6 +110,45 @@ class FirestoreClass {
                     activity.javaClass.simpleName,
                     "Error while updating the user details.",
                     e
+                )
+            }
+    }
+
+    fun uploadImageToCloudStorage(activity: Activity, imageFileUri: Uri?) {
+        val storageReference: StorageReference = FirebaseStorage.getInstance()
+            .reference
+            .child(Constants.USER_PROFILE_IMAGE + System.currentTimeMillis() + "."
+                    + Constants.getFileExtension(activity, imageFileUri))
+
+        storageReference.putFile(imageFileUri!!)
+            .addOnSuccessListener { taskSnapshot ->
+                Log.e(
+                    "Firebase image URL",
+                    taskSnapshot.metadata!!.reference!!.downloadUrl.toString()
+                )
+
+                taskSnapshot.metadata!!.reference!!.downloadUrl
+                    .addOnSuccessListener { uri ->
+                        Log.e("Downloadable Image URL", uri.toString())
+                        when (activity) {
+                            is UserProfileActivity -> {
+                                activity.imageUploadSuccess(uri.toString())
+                            }
+                        }
+                    }
+
+            }
+            .addOnFailureListener { exception ->
+                when (activity) {
+                    is UserProfileActivity -> {
+                        activity.hideProgressDialog()
+                    }
+                }
+
+                Log.e(
+                    activity.javaClass.simpleName,
+                    exception.message,
+                    exception
                 )
             }
     }
