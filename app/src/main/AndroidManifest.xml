@@ -11,29 +11,30 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".ui.activities.SettingsActivity"></activity>
         <activity
-            android:name="pro.kaspiotr.ecommercemobileapp.ui.activities.DashboardActivity"
+            android:name=".ui.activities.DashboardActivity"
             android:label="@string/app_name" />
         <activity
-            android:name="pro.kaspiotr.ecommercemobileapp.ui.activities.UserProfileActivity"
+            android:name=".ui.activities.UserProfileActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="pro.kaspiotr.ecommercemobileapp.ui.activities.ForgotPasswordActivity"
+            android:name=".ui.activities.ForgotPasswordActivity"
             android:label=""
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name="pro.kaspiotr.ecommercemobileapp.ui.activities.BaseActivity" />
+        <activity android:name=".ui.activities.BaseActivity" />
         <activity
-            android:name="pro.kaspiotr.ecommercemobileapp.ui.activities.RegisterActivity"
+            android:name=".ui.activities.RegisterActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="pro.kaspiotr.ecommercemobileapp.ui.activities.LoginActivity"
+            android:name=".ui.activities.LoginActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="pro.kaspiotr.ecommercemobileapp.ui.activities.SplashActivity"
+            android:name=".ui.activities.SplashActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -43,7 +44,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="pro.kaspiotr.ecommercemobileapp.ui.activities.MainActivity"
+            android:name=".ui.activities.MainActivity"
             android:screenOrientation="portrait" />
     </application>
 
