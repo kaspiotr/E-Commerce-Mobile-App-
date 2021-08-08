@@ -14,6 +14,7 @@ import pro.kaspiotr.ecommercemobileapp.ui.activities.LoginActivity
 import pro.kaspiotr.ecommercemobileapp.ui.activities.RegisterActivity
 import pro.kaspiotr.ecommercemobileapp.ui.activities.UserProfileActivity
 import pro.kaspiotr.ecommercemobileapp.models.User
+import pro.kaspiotr.ecommercemobileapp.ui.activities.SettingsActivity
 import pro.kaspiotr.ecommercemobileapp.utils.Constants
 
 class FirestoreClass {
@@ -82,10 +83,26 @@ class FirestoreClass {
                         // Call a function of base activity for transferring the result to it
                         activity.userLoggedInSuccess(user)
                     }
+                    is SettingsActivity -> {
+                        activity.userDetailsSuccess(user)
+                    }
                 }
             }
             .addOnFailureListener { e ->
+                when (activity) {
+                    is LoginActivity -> {
+                        activity.hideProgressDialog()
+                    }
+                    is SettingsActivity -> {
+                        activity.hideProgressDialog()
+                    }
+                }
 
+                Log.e(
+                    activity.javaClass.simpleName,
+                    "Error while getting user details.",
+                    e
+                )
             }
     }
 
