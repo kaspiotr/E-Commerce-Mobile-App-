@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
-import android.util.Log
 import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
@@ -43,11 +42,6 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
 
     fun userLoggedInSuccess(user: User) {
         hideProgressDialog()
-
-        // Print user details in the log
-        Log.i("First name", user.firstName)
-        Log.i("Last name", user.lastName)
-        Log.i("Email", user.email)
 
         if (user.profileCompleted == 0) {
             // If the user profile is incomplete the launch the UserProfileActvity

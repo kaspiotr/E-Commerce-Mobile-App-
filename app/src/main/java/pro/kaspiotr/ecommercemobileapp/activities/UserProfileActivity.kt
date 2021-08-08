@@ -102,6 +102,7 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener {
             userHashMap[Constants.MOBILE] = mobileNumber.toLong()
         }
         userHashMap[Constants.GENDER] = gender
+        userHashMap[Constants.COMPLETE_PROFILE] = 1
         FirestoreClass().updateUserProfileData(this, userHashMap)
     }
 
