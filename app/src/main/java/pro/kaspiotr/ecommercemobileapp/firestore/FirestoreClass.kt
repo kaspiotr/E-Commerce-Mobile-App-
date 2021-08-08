@@ -10,9 +10,9 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
-import pro.kaspiotr.ecommercemobileapp.activities.LoginActivity
-import pro.kaspiotr.ecommercemobileapp.activities.RegisterActivity
-import pro.kaspiotr.ecommercemobileapp.activities.UserProfileActivity
+import pro.kaspiotr.ecommercemobileapp.ui.activities.LoginActivity
+import pro.kaspiotr.ecommercemobileapp.ui.activities.RegisterActivity
+import pro.kaspiotr.ecommercemobileapp.ui.activities.UserProfileActivity
 import pro.kaspiotr.ecommercemobileapp.models.User
 import pro.kaspiotr.ecommercemobileapp.utils.Constants
 

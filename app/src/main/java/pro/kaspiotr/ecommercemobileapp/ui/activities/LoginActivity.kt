@@ -1,4 +1,4 @@
-package pro.kaspiotr.ecommercemobileapp.activities
+package pro.kaspiotr.ecommercemobileapp.ui.activities
 
 import android.content.Intent
 import android.os.Build
@@ -8,7 +8,6 @@ import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
 import com.google.firebase.auth.FirebaseAuth
-import pro.kaspiotr.ecommercemobileapp.activities.DashboardActivity
 import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_login.et_email
 import kotlinx.android.synthetic.main.activity_login.et_password

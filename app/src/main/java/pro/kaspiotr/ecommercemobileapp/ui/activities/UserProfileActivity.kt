@@ -1,4 +1,4 @@
-package pro.kaspiotr.ecommercemobileapp.activities
+package pro.kaspiotr.ecommercemobileapp.ui.activities
 
 import android.Manifest
 import android.app.Activity

@@ -1,4 +1,4 @@
-package pro.kaspiotr.ecommercemobileapp.activities
+package pro.kaspiotr.ecommercemobileapp.ui.activities
 
 import android.os.Bundle
 import android.widget.Toast
