@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.view.WindowInsets
 import android.view.WindowManager
+import pro.kaspiotr.ecommercemobileapp.activities.DashboardActivity
 import pro.kaspiotr.ecommercemobileapp.R
 
 class SplashActivity : AppCompatActivity() {
@@ -28,7 +29,7 @@ class SplashActivity : AppCompatActivity() {
         Handler().postDelayed(
             {
                 // Launch the Main Activity
-                startActivity(Intent(this@SplashActivity, LoginActivity::class.java))
+                startActivity(Intent(this@SplashActivity, DashboardActivity::class.java))
                 finish()
             },
             1500

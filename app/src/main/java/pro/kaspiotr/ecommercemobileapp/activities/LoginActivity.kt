@@ -8,6 +8,7 @@ import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
 import com.google.firebase.auth.FirebaseAuth
+import pro.kaspiotr.ecommercemobileapp.activities.DashboardActivity
 import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_login.et_email
 import kotlinx.android.synthetic.main.activity_login.et_password
@@ -50,7 +51,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
             startActivity(intent)
         } else {
             // Redirect the user to the main screen after the log in
-            startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+            startActivity(Intent(this@LoginActivity, DashboardActivity::class.java))
         }
         finish()
     }
