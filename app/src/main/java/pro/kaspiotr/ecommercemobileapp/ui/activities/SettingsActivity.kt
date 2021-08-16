@@ -20,8 +20,8 @@ class SettingsActivity : BaseActivity(), View.OnClickListener {
         setContentView(R.layout.activity_settings)
         setUpActionBar()
 
-        tv_edit.setOnClickListener(this)
-        btn_logout.setOnClickListener(this)
+        tv_edit.setOnClickListener(this@SettingsActivity)
+        btn_logout.setOnClickListener(this@SettingsActivity)
     }
 
     private fun setUpActionBar() {
