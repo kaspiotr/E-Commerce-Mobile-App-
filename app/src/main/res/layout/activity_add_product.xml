@@ -166,7 +166,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <pro.kaspiotr.ecommercemobileapp.utils.CustomButton
-                android:id="@+id/btn_submit"
+                android:id="@+id/btn_submit_add_product"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
