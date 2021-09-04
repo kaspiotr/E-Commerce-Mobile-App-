@@ -15,6 +15,7 @@ import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.activity_add_product.*
 import kotlinx.android.synthetic.main.activity_user_profile.*
 import pro.kaspiotr.ecommercemobileapp.R
+import pro.kaspiotr.ecommercemobileapp.firestore.FirestoreClass
 import pro.kaspiotr.ecommercemobileapp.utils.Constants
 import pro.kaspiotr.ecommercemobileapp.utils.GlideLoader
 import java.io.IOException
@@ -66,6 +67,7 @@ class AddProductActivity : BaseActivity(), View.OnClickListener {
 
                 R.id.btn_submit_add_product -> {
                     if (validateProductDetails()) {
+                        uploadProductImage()
                         showErrorSnackBar("Your product details are valid.", false)
                     }
                 }
@@ -139,6 +141,16 @@ class AddProductActivity : BaseActivity(), View.OnClickListener {
                 true
             }
         }
+    }
+
+    private fun uploadProductImage() {
+        showProgressDialog(resources.getString(R.string.please_wait))
+        FirestoreClass().uploadImageToCloudStorage(this, mSelectedImageFileUri, Constants.PRODUCT_IMAGE)
+    }
+
+    fun imageUploadSuccess(imageUrl: String) {
+        hideProgressDialog()
+        showErrorSnackBar("Product image was uploaded successfully. Image URL: $imageUrl", false)
     }
 
 }

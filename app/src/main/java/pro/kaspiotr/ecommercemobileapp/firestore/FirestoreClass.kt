@@ -10,11 +10,8 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
-import pro.kaspiotr.ecommercemobileapp.ui.activities.LoginActivity
-import pro.kaspiotr.ecommercemobileapp.ui.activities.RegisterActivity
-import pro.kaspiotr.ecommercemobileapp.ui.activities.UserProfileActivity
 import pro.kaspiotr.ecommercemobileapp.models.User
-import pro.kaspiotr.ecommercemobileapp.ui.activities.SettingsActivity
+import pro.kaspiotr.ecommercemobileapp.ui.activities.*
 import pro.kaspiotr.ecommercemobileapp.utils.Constants
 
 class FirestoreClass {
@@ -131,10 +128,10 @@ class FirestoreClass {
             }
     }
 
-    fun uploadImageToCloudStorage(activity: Activity, imageFileUri: Uri?) {
+    fun uploadImageToCloudStorage(activity: Activity, imageFileUri: Uri?, imageType: String) {
         val storageReference: StorageReference = FirebaseStorage.getInstance()
             .reference
-            .child(Constants.USER_PROFILE_IMAGE + System.currentTimeMillis() + "."
+            .child(imageType + System.currentTimeMillis() + "."
                     + Constants.getFileExtension(activity, imageFileUri))
 
         storageReference.putFile(imageFileUri!!)
@@ -151,6 +148,9 @@ class FirestoreClass {
                             is UserProfileActivity -> {
                                 activity.imageUploadSuccess(uri.toString())
                             }
+                            is AddProductActivity -> {
+                                activity.imageUploadSuccess(uri.toString())
+                            }
                         }
                     }
 
@@ -158,6 +158,9 @@ class FirestoreClass {
             .addOnFailureListener { exception ->
                 when (activity) {
                     is UserProfileActivity -> {
+                        activity.hideProgressDialog()
+                    }
+                    is AddProductActivity -> {
                         activity.hideProgressDialog()
                     }
                 }
