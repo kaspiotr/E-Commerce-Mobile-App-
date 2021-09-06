@@ -10,6 +10,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import pro.kaspiotr.ecommercemobileapp.models.Product
 import pro.kaspiotr.ecommercemobileapp.models.User
 import pro.kaspiotr.ecommercemobileapp.ui.activities.*
 import pro.kaspiotr.ecommercemobileapp.utils.Constants
@@ -169,6 +170,27 @@ class FirestoreClass {
                     activity.javaClass.simpleName,
                     exception.message,
                     exception
+                )
+            }
+    }
+
+    fun uploadProductDetails(activity: AddProductActivity, productInfo: Product) {
+        // The 'products' is the collection name. If the collection is already created that it will not create the same one.
+        mFirestore.collection(Constants.PRODUCTS)
+            // Document ID for specific product is not necessary here, because we are creating a new product
+            .document()
+            // Here the productInfo are Field and the SetOptions is set to merge. It is for if we wants to merge later
+            .set(productInfo, SetOptions.merge())
+            .addOnSuccessListener {
+                // Here call a function of base activity for transferring the result to it.
+                activity.productUploadSuccess()
+            }
+            .addOnFailureListener { e ->
+                activity.hideProgressDialog()
+                Log.e(
+                    activity.javaClass.simpleName,
+                    "Error while uploading the product details.",
+                    e
                 )
             }
     }

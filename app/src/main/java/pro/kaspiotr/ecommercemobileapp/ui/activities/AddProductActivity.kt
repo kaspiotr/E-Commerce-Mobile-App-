@@ -2,6 +2,7 @@ package pro.kaspiotr.ecommercemobileapp.ui.activities
 
 import android.Manifest
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -16,6 +17,7 @@ import kotlinx.android.synthetic.main.activity_add_product.*
 import kotlinx.android.synthetic.main.activity_user_profile.*
 import pro.kaspiotr.ecommercemobileapp.R
 import pro.kaspiotr.ecommercemobileapp.firestore.FirestoreClass
+import pro.kaspiotr.ecommercemobileapp.models.Product
 import pro.kaspiotr.ecommercemobileapp.utils.Constants
 import pro.kaspiotr.ecommercemobileapp.utils.GlideLoader
 import java.io.IOException
@@ -23,6 +25,7 @@ import java.io.IOException
 class AddProductActivity : BaseActivity(), View.OnClickListener {
 
     private var mSelectedImageFileUri: Uri? = null
+    private var mProductImageUrl: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -149,8 +152,36 @@ class AddProductActivity : BaseActivity(), View.OnClickListener {
     }
 
     fun imageUploadSuccess(imageUrl: String) {
+        mProductImageUrl = imageUrl
+        uploadProductDetails()
+    }
+
+    fun productUploadSuccess() {
         hideProgressDialog()
-        showErrorSnackBar("Product image was uploaded successfully. Image URL: $imageUrl", false)
+        Toast.makeText(
+            this@AddProductActivity,
+            resources.getString(R.string.product_upload_success_message),
+            Toast.LENGTH_SHORT
+        ).show()
+        finish()
+    }
+
+    private fun uploadProductDetails() {
+        val username = this.getSharedPreferences(
+            Constants.E_COMMERCE_MOBILE_APP_PREFERENCES, Context.MODE_PRIVATE)
+            .getString(Constants.LOGGED_IN_USERNAME, "")!!
+
+        val product = Product(
+            FirestoreClass().getCurrentUserID(),
+            username,
+            et_product_title.text.toString().trim { it <= ' ' },
+            et_product_price.text.toString().trim { it <= ' ' },
+            et_product_description.text.toString().trim { it <= ' ' },
+            et_product_quantity.text.toString().trim { it <= ' ' },
+            mProductImageUrl
+        )
+
+        FirestoreClass().uploadProductDetails(this, product)
     }
 
 }
