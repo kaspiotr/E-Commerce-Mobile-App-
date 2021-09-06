@@ -9,7 +9,7 @@ import pro.kaspiotr.ecommercemobileapp.R
 import pro.kaspiotr.ecommercemobileapp.ui.activities.AddProductActivity
 import pro.kaspiotr.ecommercemobileapp.ui.activities.SettingsActivity
 
-class ProductsFragment : Fragment() {
+class ProductsFragment : BaseFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,8 +22,7 @@ class ProductsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val root = inflater.inflate(R.layout.fragment_products, container, false)
-        val textView: TextView = root.findViewById(R.id.text_home)
-        textView.text = "This is Products Fragment"
+
         return root
     }
 
