@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.net.Uri
 import android.util.Log
+import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
@@ -13,6 +14,7 @@ import com.google.firebase.storage.StorageReference
 import pro.kaspiotr.ecommercemobileapp.models.Product
 import pro.kaspiotr.ecommercemobileapp.models.User
 import pro.kaspiotr.ecommercemobileapp.ui.activities.*
+import pro.kaspiotr.ecommercemobileapp.ui.fragments.ProductsFragment
 import pro.kaspiotr.ecommercemobileapp.utils.Constants
 
 class FirestoreClass {
@@ -193,5 +195,27 @@ class FirestoreClass {
                     e
                 )
             }
+    }
+
+    fun getProductsList(fragment: Fragment) {
+        mFirestore.collection(Constants.PRODUCTS)
+            .whereEqualTo(Constants.USERS, getCurrentUserID())
+            .get()
+            .addOnSuccessListener { document ->
+                Log.e("Product List", document.documents.toString())
+                val productList: ArrayList<Product> = ArrayList()
+                for (doc in document.documents) {
+                    val product = doc.toObject(Product::class.java)
+                    product!!.product_id = doc.id
+                    productList.add(product)
+                }
+
+                when (fragment) {
+                    is ProductsFragment -> {
+                        fragment.successProductsListFromFireStore(productList)
+                    }
+                }
+            }
+
     }
 }

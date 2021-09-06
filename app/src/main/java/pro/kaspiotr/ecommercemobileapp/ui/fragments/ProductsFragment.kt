@@ -2,12 +2,12 @@ package pro.kaspiotr.ecommercemobileapp.ui.fragments
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.*
-import android.widget.TextView
-import androidx.fragment.app.Fragment
 import pro.kaspiotr.ecommercemobileapp.R
+import pro.kaspiotr.ecommercemobileapp.firestore.FirestoreClass
+import pro.kaspiotr.ecommercemobileapp.models.Product
 import pro.kaspiotr.ecommercemobileapp.ui.activities.AddProductActivity
-import pro.kaspiotr.ecommercemobileapp.ui.activities.SettingsActivity
 
 class ProductsFragment : BaseFragment() {
 
@@ -42,4 +42,23 @@ class ProductsFragment : BaseFragment() {
         }
         return super.onOptionsItemSelected(item)
     }
+
+    override fun onResume() {
+        super.onResume()
+        getProductsListFromFireStore()
+    }
+
+    fun successProductsListFromFireStore(productList: ArrayList<Product>) {
+        hideProgressDialog()
+
+        for (product in productList) {
+            Log.i("Product Name", product.title)
+        }
+    }
+
+    private fun getProductsListFromFireStore() {
+        showProgressDialog(resources.getString(R.string.please_wait))
+        FirestoreClass().getProductsList(this)
+    }
+
 }
