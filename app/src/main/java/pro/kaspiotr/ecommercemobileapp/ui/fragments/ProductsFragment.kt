@@ -2,12 +2,14 @@ package pro.kaspiotr.ecommercemobileapp.ui.fragments
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.*
+import androidx.recyclerview.widget.LinearLayoutManager
+import kotlinx.android.synthetic.main.fragment_products.*
 import pro.kaspiotr.ecommercemobileapp.R
 import pro.kaspiotr.ecommercemobileapp.firestore.FirestoreClass
 import pro.kaspiotr.ecommercemobileapp.models.Product
 import pro.kaspiotr.ecommercemobileapp.ui.activities.AddProductActivity
+import pro.kaspiotr.ecommercemobileapp.ui.adapters.MyProductsListAdapter
 
 class ProductsFragment : BaseFragment() {
 
@@ -51,8 +53,17 @@ class ProductsFragment : BaseFragment() {
     fun successProductsListFromFireStore(productList: ArrayList<Product>) {
         hideProgressDialog()
 
-        for (product in productList) {
-            Log.i("Product Name", product.title)
+        if (productList.size > 0) {
+            rv_my_product_items.visibility = View.VISIBLE
+            tv_no_products_found.visibility = View.GONE
+
+            rv_my_product_items.layoutManager = LinearLayoutManager(activity)
+            rv_my_product_items.setHasFixedSize(true)
+            val adapterProducts = MyProductsListAdapter(requireActivity(), productList)
+            rv_my_product_items.adapter = adapterProducts
+        } else {
+            rv_my_product_items.visibility = View.GONE
+            tv_no_products_found.visibility = View.VISIBLE
         }
     }
 
