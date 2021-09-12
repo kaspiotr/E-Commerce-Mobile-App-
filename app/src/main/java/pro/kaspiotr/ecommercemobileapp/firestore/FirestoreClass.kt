@@ -14,6 +14,7 @@ import com.google.firebase.storage.StorageReference
 import pro.kaspiotr.ecommercemobileapp.models.Product
 import pro.kaspiotr.ecommercemobileapp.models.User
 import pro.kaspiotr.ecommercemobileapp.ui.activities.*
+import pro.kaspiotr.ecommercemobileapp.ui.fragments.DashboardFragment
 import pro.kaspiotr.ecommercemobileapp.ui.fragments.ProductsFragment
 import pro.kaspiotr.ecommercemobileapp.utils.Constants
 
@@ -199,7 +200,7 @@ class FirestoreClass {
 
     fun getProductsList(fragment: Fragment) {
         mFirestore.collection(Constants.PRODUCTS)
-            .whereEqualTo(Constants.USERS, getCurrentUserID())
+            .whereEqualTo(Constants.USER_ID, getCurrentUserID())
             .get()
             .addOnSuccessListener { document ->
                 Log.e("Product List", document.documents.toString())
@@ -216,6 +217,29 @@ class FirestoreClass {
                     }
                 }
             }
+    }
 
+    fun getDashboardItemsList(fragment: DashboardFragment) {
+        mFirestore.collection(Constants.PRODUCTS)
+            .get()
+            .addOnSuccessListener { document ->
+                Log.e(fragment.javaClass.simpleName, document.documents.toString())
+
+                val productsList: ArrayList<Product> = ArrayList()
+
+                for (i in document.documents) {
+
+                    val product = i.toObject(Product::class.java)!!
+                    product.product_id = i.id
+                    productsList.add(product)
+                }
+
+                fragment.successDashboardItemsList(productsList)
+            }
+            .addOnFailureListener { e ->
+                // Hide the progress dialog if there is any error with getting the dashboard items list.
+                fragment.hideProgressDialog()
+                Log.e(fragment.javaClass.simpleName, "Error while getting dashboard items list.", e)
+            }
     }
 }
