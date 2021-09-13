@@ -8,11 +8,13 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.item_list_layout.view.*
 import pro.kaspiotr.ecommercemobileapp.R
 import pro.kaspiotr.ecommercemobileapp.models.Product
+import pro.kaspiotr.ecommercemobileapp.ui.fragments.ProductsFragment
 import pro.kaspiotr.ecommercemobileapp.utils.GlideLoader
 
 open class MyProductsListAdapter(
     private val context: Context,
-    private var list: ArrayList<Product>
+    private var list: ArrayList<Product>,
+    private val fragment: ProductsFragment
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return MyViewHolder(
@@ -31,6 +33,10 @@ open class MyProductsListAdapter(
             GlideLoader(context).loadProductPicture(model.image, holder.itemView.iv_item_image)
             holder.itemView.tv_item_name.text = model.title
             holder.itemView.tv_item_price.text = "$${model.price}"
+
+            holder.itemView.ib_delete_product.setOnClickListener {
+                fragment.deleteProduct(model.product_id)
+            }
         }
     }
 

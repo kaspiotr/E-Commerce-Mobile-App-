@@ -3,6 +3,7 @@ package pro.kaspiotr.ecommercemobileapp.ui.fragments
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_products.*
 import pro.kaspiotr.ecommercemobileapp.R
@@ -59,7 +60,7 @@ class ProductsFragment : BaseFragment() {
 
             rv_my_product_items.layoutManager = LinearLayoutManager(activity)
             rv_my_product_items.setHasFixedSize(true)
-            val adapterProducts = MyProductsListAdapter(requireActivity(), productList)
+            val adapterProducts = MyProductsListAdapter(requireActivity(), productList, this)
             rv_my_product_items.adapter = adapterProducts
         } else {
             rv_my_product_items.visibility = View.GONE
@@ -70,6 +71,14 @@ class ProductsFragment : BaseFragment() {
     private fun getProductsListFromFireStore() {
         showProgressDialog(resources.getString(R.string.please_wait))
         FirestoreClass().getProductsList(this)
+    }
+
+    fun deleteProduct(productID: String) {
+        Toast.makeText(
+            requireActivity(),
+            "You can now delete the product, $productID",
+            Toast.LENGTH_SHORT
+        ).show()
     }
 
 }
