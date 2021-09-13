@@ -242,4 +242,23 @@ class FirestoreClass {
                 Log.e(fragment.javaClass.simpleName, "Error while getting dashboard items list.", e)
             }
     }
+
+    fun deleteProduct(fragment: ProductsFragment, productId: String) {
+        mFirestore.collection(Constants.PRODUCTS)
+            .document(productId)
+            .delete()
+            .addOnSuccessListener {
+                fragment.productDeleteSuccess()
+            }
+            .addOnFailureListener { e ->
+                fragment.hideProgressDialog()
+
+                Log.e(
+                    fragment.requireActivity().javaClass.simpleName,
+                    "Error while deleting the product.",
+                    e
+                )
+            }
+    }
+
 }

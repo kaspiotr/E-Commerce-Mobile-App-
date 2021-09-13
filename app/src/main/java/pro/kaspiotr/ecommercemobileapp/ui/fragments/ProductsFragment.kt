@@ -1,5 +1,6 @@
 package pro.kaspiotr.ecommercemobileapp.ui.fragments
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
@@ -74,11 +75,42 @@ class ProductsFragment : BaseFragment() {
     }
 
     fun deleteProduct(productID: String) {
+        showAlertDialogToDeleteProduct(productID)
+    }
+
+    fun productDeleteSuccess() {
+        hideProgressDialog()
+
         Toast.makeText(
             requireActivity(),
-            "You can now delete the product, $productID",
+            resources.getString(R.string.product_delete_success_message),
             Toast.LENGTH_SHORT
         ).show()
+
+        getProductsListFromFireStore()
+    }
+
+    private fun showAlertDialogToDeleteProduct(productID: String) {
+        val builder = AlertDialog.Builder(requireActivity())
+        builder.setTitle(resources.getString(R.string.delete_dialog_title))
+        builder.setMessage(resources.getString(R.string.delete_dialog_message))
+        builder.setIcon(android.R.drawable.ic_dialog_alert)
+
+        builder.setPositiveButton(resources.getString(R.string.yes)) { dialogInterface, _ ->
+            showProgressDialog(resources.getString(R.string.please_wait))
+
+            FirestoreClass().deleteProduct(this, productID)
+
+            dialogInterface.dismiss()
+        }
+
+        builder.setNegativeButton(resources.getString(R.string.no)) { dialogInterface, _ ->
+            dialogInterface.dismiss()
+        }
+
+        val alertDialog: AlertDialog = builder.create()
+        alertDialog.setCancelable(false)
+        alertDialog.show()
     }
 
 }
