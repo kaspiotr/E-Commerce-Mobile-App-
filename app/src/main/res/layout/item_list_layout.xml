@@ -17,7 +17,7 @@
         android:padding="@dimen/item_image_padding"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="parent" >
+        app:layout_constraintTop_toTopOf="parent" >
 
         <ImageView
             android:id="@+id/iv_item_image"
@@ -28,15 +28,17 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/ll_product_details"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/item_image_title_price_marginStart"
+        android:layout_marginEnd="@dimen/item_image_title_price_marginStart"
         android:gravity="center"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/ll_item_image"
-        app:layout_constraintBottom_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent">
 
         <pro.kaspiotr.ecommercemobileapp.utils.CustomTextViewBold
             android:id="@+id/tv_item_name"
