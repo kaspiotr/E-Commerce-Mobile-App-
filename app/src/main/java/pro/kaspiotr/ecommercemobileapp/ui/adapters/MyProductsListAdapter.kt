@@ -11,6 +11,7 @@ import pro.kaspiotr.ecommercemobileapp.R
 import pro.kaspiotr.ecommercemobileapp.models.Product
 import pro.kaspiotr.ecommercemobileapp.ui.activities.ProductDetailsActivity
 import pro.kaspiotr.ecommercemobileapp.ui.fragments.ProductsFragment
+import pro.kaspiotr.ecommercemobileapp.utils.Constants
 import pro.kaspiotr.ecommercemobileapp.utils.GlideLoader
 
 open class MyProductsListAdapter(
@@ -42,6 +43,7 @@ open class MyProductsListAdapter(
 
             holder.itemView.setOnClickListener {
                 val intent = Intent(context, ProductDetailsActivity::class.java)
+                intent.putExtra(Constants.EXTRA_PRODUCT_ID, model.product_id)
                 context.startActivity(intent)
             }
         }
