@@ -2,6 +2,7 @@ package pro.kaspiotr.ecommercemobileapp.ui.activities
 
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import kotlinx.android.synthetic.main.activity_product_details.*
 import pro.kaspiotr.ecommercemobileapp.R
 import pro.kaspiotr.ecommercemobileapp.firestore.FirestoreClass
@@ -20,7 +21,17 @@ class ProductDetailsActivity : BaseActivity() {
 
         if (intent.hasExtra(Constants.EXTRA_PRODUCT_ID)) {
             mProductId = intent.getStringExtra(Constants.EXTRA_PRODUCT_ID)!!
-            Log.i("Product Id", mProductId)
+        }
+        var productOwnerId: String = ""
+
+        if (intent.hasExtra(Constants.EXTRA_PRODUCT_OWNER_ID)) {
+            productOwnerId = intent.getStringExtra(Constants.EXTRA_PRODUCT_OWNER_ID)!!
+        }
+
+        if (FirestoreClass().getCurrentUserID() == productOwnerId) {
+            btn_add_to_cart.visibility = View.GONE
+        } else {
+            btn_add_to_cart.visibility = View.VISIBLE
         }
 
         getProductDetails()
