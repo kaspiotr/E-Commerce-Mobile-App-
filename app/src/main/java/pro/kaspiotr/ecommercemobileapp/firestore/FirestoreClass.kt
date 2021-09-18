@@ -295,4 +295,27 @@ class FirestoreClass {
             }
     }
 
+    fun checkIfItemExistInCart(activity: ProductDetailsActivity, productId: String) {
+        mFirestore.collection(Constants.CART_ITEMS)
+            .whereEqualTo(Constants.USER_ID, getCurrentUserID())
+            .whereEqualTo(Constants.PRODUCT_ID, productId)
+            .get()
+            .addOnSuccessListener { document ->
+                Log.e(activity.javaClass.simpleName, document.documents.toString())
+                if (document.documents.size > 0) {
+                    activity.productExistsInCart()
+                } else {
+                    activity.hideProgressDialog()
+                }
+            }
+            .addOnFailureListener { e ->
+                activity.hideProgressDialog()
+                Log.e(
+                    activity.javaClass.simpleName,
+                    "Error while checking if product exists in a cart.",
+                    e
+                )
+            }
+    }
+
 }

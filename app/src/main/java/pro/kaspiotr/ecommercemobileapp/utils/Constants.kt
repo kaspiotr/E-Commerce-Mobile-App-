@@ -10,6 +10,7 @@ object Constants {
     // Collections in Cloud Firestore
     const val USERS: String = "users"
     const val PRODUCTS: String = "products"
+    const val CART_ITEMS: String = "cart_items"
 
     const val E_COMMERCE_MOBILE_APP_PREFERENCES: String = "ECommerceMobileAppPreferences"
     const val LOGGED_IN_USERNAME: String = "logged_in_username"
@@ -30,7 +31,7 @@ object Constants {
     const val EXTRA_PRODUCT_ID: String = "extra_product_id"
     const val EXTRA_PRODUCT_OWNER_ID: String = "extra_product_owner_id"
     const val DEFAULT_CART_QUANTITY: String = "1"
-    const val CART_ITEMS: String = "cart_items"
+    const val PRODUCT_ID: String = "product_id"
 
     fun showImageChooser(activity: Activity) {
         // An intent for launching the image selection of phone storage.
