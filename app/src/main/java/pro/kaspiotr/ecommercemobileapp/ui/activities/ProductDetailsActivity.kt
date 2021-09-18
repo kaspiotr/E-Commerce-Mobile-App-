@@ -1,18 +1,20 @@
 package pro.kaspiotr.ecommercemobileapp.ui.activities
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
+import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_product_details.*
 import pro.kaspiotr.ecommercemobileapp.R
 import pro.kaspiotr.ecommercemobileapp.firestore.FirestoreClass
+import pro.kaspiotr.ecommercemobileapp.models.CartItem
 import pro.kaspiotr.ecommercemobileapp.models.Product
 import pro.kaspiotr.ecommercemobileapp.utils.Constants
 import pro.kaspiotr.ecommercemobileapp.utils.GlideLoader
 
-class ProductDetailsActivity : BaseActivity() {
+class ProductDetailsActivity : BaseActivity(), View.OnClickListener {
 
     private var mProductId: String = ""
+    private lateinit var mProductDetails: Product
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,6 +37,8 @@ class ProductDetailsActivity : BaseActivity() {
         }
 
         getProductDetails()
+
+        btn_add_to_cart.setOnClickListener(this)
     }
 
     private fun setupActionBar() {
@@ -55,6 +59,7 @@ class ProductDetailsActivity : BaseActivity() {
     }
 
     fun productDetailsSuccess(product: Product) {
+        mProductDetails = product
         hideProgressDialog()
         GlideLoader(this@ProductDetailsActivity).loadProductPicture(
             product.image,
@@ -64,5 +69,38 @@ class ProductDetailsActivity : BaseActivity() {
         tv_product_details_price.text = "$${product.price}"
         tv_product_details_description.text = product.description
         tv_product_details_available_quantity.text = product.stock_quantity
+    }
+
+    private fun addToCart() {
+        val cartItem = CartItem(
+            FirestoreClass().getCurrentUserID(),
+            mProductId,
+            mProductDetails.title,
+            mProductDetails.price,
+            mProductDetails.image,
+            Constants.DEFAULT_CART_QUANTITY
+        )
+
+        showProgressDialog(resources.getString(R.string.please_wait))
+        FirestoreClass().addCartItems(this, cartItem)
+    }
+
+    override fun onClick(view: View?) {
+        if (view != null) {
+            when (view.id) {
+                R.id.btn_add_to_cart -> {
+                    addToCart()
+                }
+            }
+        }
+    }
+
+    fun addToCartSuccess() {
+        hideProgressDialog()
+        Toast.makeText(
+            this@ProductDetailsActivity,
+            resources.getString(R.string.success_message_item_added_to_cart),
+            Toast.LENGTH_SHORT
+        ).show()
     }
 }

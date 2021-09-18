@@ -11,6 +11,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import pro.kaspiotr.ecommercemobileapp.models.CartItem
 import pro.kaspiotr.ecommercemobileapp.models.Product
 import pro.kaspiotr.ecommercemobileapp.models.User
 import pro.kaspiotr.ecommercemobileapp.ui.activities.*
@@ -275,6 +276,22 @@ class FirestoreClass {
             .addOnFailureListener { e ->
                 activity.hideProgressDialog()
                 Log.e(activity.javaClass.simpleName, "Error while getting the product detils.", e)
+            }
+    }
+
+    fun addCartItems(activity: ProductDetailsActivity, addToCart: CartItem) {
+        mFirestore.collection(Constants.CART_ITEMS)
+            .document()
+            .set(addToCart, SetOptions.merge())
+            .addOnSuccessListener {
+                activity.addToCartSuccess()
+            }.addOnFailureListener { e ->
+                activity.hideProgressDialog()
+                Log.e(
+                    activity.javaClass.simpleName,
+                    "Error while creating the document for cart item.",
+                    e
+                )
             }
     }
 
