@@ -239,7 +239,7 @@
                     android:textSize="@dimen/et_textSize" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            pro.kaspiotr.ecommercemobileapp.utils.CustomButton
+            <pro.kaspiotr.ecommercemobileapp.utils.CustomButton
                 android:id="@+id/btn_submit_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

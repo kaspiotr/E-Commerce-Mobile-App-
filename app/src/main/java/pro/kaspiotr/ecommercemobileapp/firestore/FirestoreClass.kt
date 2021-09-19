@@ -6,12 +6,12 @@ import android.content.SharedPreferences
 import android.net.Uri
 import android.util.Log
 import androidx.fragment.app.Fragment
-import com.google.android.gms.common.api.HasApiKey
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import pro.kaspiotr.ecommercemobileapp.models.Address
 import pro.kaspiotr.ecommercemobileapp.models.CartItem
 import pro.kaspiotr.ecommercemobileapp.models.Product
 import pro.kaspiotr.ecommercemobileapp.models.User
@@ -415,6 +415,23 @@ class FirestoreClass {
                 Log.e(
                     context.javaClass.simpleName,
                     "Error while updating the cart item.",
+                    e
+                )
+            }
+    }
+
+    fun addAddress(activity: AddEditAddressActivity, addressInfo: Address) {
+        mFirestore.collection(Constants.ADDRESSES)
+            .document()
+            .set(addressInfo, SetOptions.merge())
+            .addOnSuccessListener {
+                activity.addUpdateAddressSuccess()
+            }
+            .addOnFailureListener { e ->
+                activity.hideProgressDialog()
+                Log.e(
+                    activity.javaClass.simpleName,
+                    "Error while adding the address.",
                     e
                 )
             }

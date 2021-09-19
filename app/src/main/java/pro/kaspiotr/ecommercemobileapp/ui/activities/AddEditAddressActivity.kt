@@ -2,6 +2,8 @@ package pro.kaspiotr.ecommercemobileapp.ui.activities
 
 import android.os.Bundle
 import android.text.TextUtils
+import android.view.View
+import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_add_edit_address.*
 import pro.kaspiotr.ecommercemobileapp.R
 import pro.kaspiotr.ecommercemobileapp.firestore.FirestoreClass
@@ -13,6 +15,16 @@ class AddEditAddressActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_edit_address)
         setUpActionBar()
+
+        btn_submit_address.setOnClickListener { saveAddressToFirestore() }
+
+        rg_type.setOnCheckedChangeListener { _, checkedId ->
+            if (checkedId == R.id.rb_other) {
+                til_other_details.visibility = View.VISIBLE
+            } else {
+                til_other_details.visibility = View.GONE
+            }
+        }
     }
 
     private fun setUpActionBar() {
@@ -37,7 +49,6 @@ class AddEditAddressActivity : BaseActivity() {
 
         if (validateData()) {
 
-            // Show the progress dialog.
             showProgressDialog(resources.getString(R.string.please_wait))
 
             val addressType: String = when {
@@ -62,6 +73,8 @@ class AddEditAddressActivity : BaseActivity() {
                 addressType,
                 otherDetails
             )
+
+            FirestoreClass().addAddress(this, addressModel)
         }
     }
 
@@ -103,5 +116,17 @@ class AddEditAddressActivity : BaseActivity() {
                 true
             }
         }
+    }
+
+    fun addUpdateAddressSuccess() {
+        hideProgressDialog()
+
+        Toast.makeText(
+            this@AddEditAddressActivity,
+            resources.getString(R.string.err_your_address_added_successfully),
+            Toast.LENGTH_SHORT
+        ).show()
+
+        finish()
     }
 }

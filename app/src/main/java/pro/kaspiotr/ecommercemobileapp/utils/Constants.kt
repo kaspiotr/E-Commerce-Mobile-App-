@@ -11,6 +11,7 @@ object Constants {
     const val USERS: String = "users"
     const val PRODUCTS: String = "products"
     const val CART_ITEMS: String = "cart_items"
+    const val ADDRESSES: String = "addresses"
 
     const val E_COMMERCE_MOBILE_APP_PREFERENCES: String = "ECommerceMobileAppPreferences"
     const val LOGGED_IN_USERNAME: String = "logged_in_username"
