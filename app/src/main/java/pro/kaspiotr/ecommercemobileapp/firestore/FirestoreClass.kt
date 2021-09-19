@@ -437,4 +437,28 @@ class FirestoreClass {
             }
     }
 
+    fun getAddressesList(activity: AddressListActivity) {
+        mFirestore.collection(Constants.ADDRESSES)
+            .whereEqualTo(Constants.USER_ID, getCurrentUserID())
+            .get()
+            .addOnSuccessListener { document ->
+                Log.e(activity.javaClass.simpleName, document.documents.toString())
+                val addressList: ArrayList<Address> = ArrayList()
+                for (addressDocument in document.documents) {
+                    val address = addressDocument.toObject(Address::class.java)!!
+                    address.id = addressDocument.id
+                    addressList.add(address)
+                }
+                activity.successAddressListFromFirestore(addressList)
+            }
+            .addOnFailureListener { e ->
+                activity.hideProgressDialog()
+                Log.e(
+                    activity.javaClass.simpleName,
+                    "Error while getting the address list.",
+                    e
+                )
+            }
+    }
+
 }
