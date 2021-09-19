@@ -348,4 +348,49 @@ class FirestoreClass {
             }
     }
 
+    fun getAllProductsList(activity: CartListActivity) {
+        mFirestore.collection(Constants.PRODUCTS)
+            .get()
+            .addOnSuccessListener { document ->
+                Log.e("Products List", document.documents.toString())
+                val productsList: ArrayList<Product> = ArrayList()
+                for (item in document.documents) {
+                    val product = item.toObject(Product::class.java)
+                    product!!.product_id = item.id
+                    productsList.add(product)
+                }
+
+                activity.successProductsListFromFirestore(productsList)
+            }
+            .addOnFailureListener { e ->
+                activity.hideProgressDialog()
+                Log.e("Get Product List", "Error while getting all products list.", e)
+            }
+    }
+
+    fun removeItemFromCart(context: Context, cart_id: String) {
+        mFirestore.collection(Constants.CART_ITEMS)
+            .document(cart_id)
+            .delete()
+            .addOnSuccessListener {
+                when (context) {
+                    is CartListActivity -> {
+                        context.itemRemovedSuccess()
+                    }
+                }
+            }
+            .addOnFailureListener { e ->
+                when (context) {
+                    is CartListActivity -> {
+                        context.hideProgressDialog()
+                    }
+                }
+                Log.e(
+                    context.javaClass.simpleName,
+                    "Error while removing the item from the cart list.",
+                    e
+                )
+            }
+    }
+
 }
