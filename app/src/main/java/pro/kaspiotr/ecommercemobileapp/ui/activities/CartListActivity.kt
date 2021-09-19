@@ -117,4 +117,9 @@ class CartListActivity : BaseActivity() {
         getCartItemsList()
     }
 
+    fun itemUpdateSuccess() {
+        hideProgressDialog()
+        getCartItemsList()
+    }
+
 }

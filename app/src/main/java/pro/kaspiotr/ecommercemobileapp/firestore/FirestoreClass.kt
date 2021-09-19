@@ -6,6 +6,7 @@ import android.content.SharedPreferences
 import android.net.Uri
 import android.util.Log
 import androidx.fragment.app.Fragment
+import com.google.android.gms.common.api.HasApiKey
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
@@ -388,6 +389,32 @@ class FirestoreClass {
                 Log.e(
                     context.javaClass.simpleName,
                     "Error while removing the item from the cart list.",
+                    e
+                )
+            }
+    }
+
+    fun updateMyCart(context: Context, cart_id: String, itemHashMap: HashMap<String, Any>) {
+        mFirestore.collection(Constants.CART_ITEMS)
+            .document(cart_id)
+            .update(itemHashMap)
+            .addOnSuccessListener {
+                when (context) {
+                    is CartListActivity -> {
+                        context.itemUpdateSuccess()
+                    }
+                }
+            }
+            .addOnFailureListener { e ->
+                when (context) {
+                    is CartListActivity -> {
+                        context.hideProgressDialog()
+                    }
+                }
+
+                Log.e(
+                    context.javaClass.simpleName,
+                    "Error while updating the cart item.",
                     e
                 )
             }
