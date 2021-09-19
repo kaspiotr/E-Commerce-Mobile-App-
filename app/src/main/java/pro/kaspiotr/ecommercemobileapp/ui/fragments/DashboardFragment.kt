@@ -11,6 +11,7 @@ import kotlinx.android.synthetic.main.fragment_dashboard.*
 import pro.kaspiotr.ecommercemobileapp.R
 import pro.kaspiotr.ecommercemobileapp.firestore.FirestoreClass
 import pro.kaspiotr.ecommercemobileapp.models.Product
+import pro.kaspiotr.ecommercemobileapp.ui.activities.CartListActivity
 import pro.kaspiotr.ecommercemobileapp.ui.activities.ProductDetailsActivity
 import pro.kaspiotr.ecommercemobileapp.ui.activities.SettingsActivity
 import pro.kaspiotr.ecommercemobileapp.ui.adapters.DashboardItemsListAdapter
@@ -49,6 +50,10 @@ class DashboardFragment : BaseFragment() {
         when (id) {
             R.id.action_setting -> {
                 startActivity(Intent(activity, SettingsActivity::class.java))
+                return true
+            }
+            R.id.action_cart -> {
+                startActivity(Intent(activity, CartListActivity::class.java))
                 return true
             }
         }
