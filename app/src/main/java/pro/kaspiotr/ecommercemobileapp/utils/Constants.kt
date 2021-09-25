@@ -37,6 +37,7 @@ object Constants {
     const val HOME: String = "Home"
     const val OFFICE: String = "Office"
     const val OTHER: String = "Other"
+    const val EXTRA_ADDRESS_DETAILS: String = "AddressDetails"
 
     fun showImageChooser(activity: Activity) {
         // An intent for launching the image selection of phone storage.

@@ -3,12 +3,15 @@ package pro.kaspiotr.ecommercemobileapp.ui.activities
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_address_list.*
 import pro.kaspiotr.ecommercemobileapp.R
 import pro.kaspiotr.ecommercemobileapp.firestore.FirestoreClass
 import pro.kaspiotr.ecommercemobileapp.models.Address
 import pro.kaspiotr.ecommercemobileapp.ui.adapters.AddressListAdapter
+import pro.kaspiotr.ecommercemobileapp.utils.SwipeToEditCallback
 
 class AddressListActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,6 +52,19 @@ class AddressListActivity : BaseActivity() {
 
             val addressListAdapter = AddressListAdapter(this, addressList)
             rv_address_list.adapter = addressListAdapter
+
+            val editSwipeHandler = object: SwipeToEditCallback(this) {
+                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                    val adapter = rv_address_list.adapter as AddressListAdapter
+                    adapter.notifyEditItem(
+                        this@AddressListActivity,
+                        viewHolder.adapterPosition
+                    )
+                }
+            }
+
+            val editItemTouchHelper = ItemTouchHelper(editSwipeHandler)
+            editItemTouchHelper.attachToRecyclerView(rv_address_list)
 
         } else {
             rv_address_list.visibility = View.GONE
