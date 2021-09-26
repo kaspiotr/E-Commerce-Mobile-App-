@@ -1,5 +1,6 @@
 package pro.kaspiotr.ecommercemobileapp.ui.activities
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -10,6 +11,7 @@ import pro.kaspiotr.ecommercemobileapp.firestore.FirestoreClass
 import pro.kaspiotr.ecommercemobileapp.models.CartItem
 import pro.kaspiotr.ecommercemobileapp.models.Product
 import pro.kaspiotr.ecommercemobileapp.ui.adapters.CartItemsListAdapter
+import pro.kaspiotr.ecommercemobileapp.utils.Constants
 
 class CartListActivity : BaseActivity() {
 
@@ -20,6 +22,12 @@ class CartListActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_cart_list)
         setupActionBar()
+
+        btn_checkout.setOnClickListener {
+            val intent = Intent(this@CartListActivity, AddressListActivity::class.java)
+            intent.putExtra(Constants.EXTRA_SELECT_ADDRESS, true)
+            startActivity(intent)
+        }
     }
 
     override fun onResume() {
