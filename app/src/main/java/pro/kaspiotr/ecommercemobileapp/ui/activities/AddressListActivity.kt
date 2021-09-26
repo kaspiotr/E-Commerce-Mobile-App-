@@ -3,6 +3,7 @@ package pro.kaspiotr.ecommercemobileapp.ui.activities
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -11,6 +12,7 @@ import pro.kaspiotr.ecommercemobileapp.R
 import pro.kaspiotr.ecommercemobileapp.firestore.FirestoreClass
 import pro.kaspiotr.ecommercemobileapp.models.Address
 import pro.kaspiotr.ecommercemobileapp.ui.adapters.AddressListAdapter
+import pro.kaspiotr.ecommercemobileapp.utils.SwipeToDeleteCallback
 import pro.kaspiotr.ecommercemobileapp.utils.SwipeToEditCallback
 
 class AddressListActivity : BaseActivity() {
@@ -66,6 +68,18 @@ class AddressListActivity : BaseActivity() {
             val editItemTouchHelper = ItemTouchHelper(editSwipeHandler)
             editItemTouchHelper.attachToRecyclerView(rv_address_list)
 
+            val deleteSwipeHandler = object: SwipeToDeleteCallback(this) {
+                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                    showProgressDialog(resources.getString(R.string.please_wait))
+
+                    FirestoreClass().deleteAddress(this@AddressListActivity,
+                        addressList[viewHolder.adapterPosition].id)
+                }
+            }
+
+            val deleteItemTouchHelper = ItemTouchHelper(deleteSwipeHandler)
+            deleteItemTouchHelper.attachToRecyclerView(rv_address_list)
+
         } else {
             rv_address_list.visibility = View.GONE
             tv_no_address_found.visibility = View.VISIBLE
@@ -75,6 +89,17 @@ class AddressListActivity : BaseActivity() {
     private fun getAddressList() {
         showProgressDialog(resources.getString(R.string.please_wait))
         FirestoreClass().getAddressesList(this)
+    }
+
+    fun deleteAddressSuccess() {
+        hideProgressDialog()
+        Toast.makeText(
+            this@AddressListActivity,
+            resources.getString(R.string.err_your_address_deleted_successfully),
+            Toast.LENGTH_SHORT
+        ).show()
+
+        getAddressList()
     }
 
 }
