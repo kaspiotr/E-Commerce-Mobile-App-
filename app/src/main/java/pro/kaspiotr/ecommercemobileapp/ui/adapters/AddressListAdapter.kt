@@ -13,6 +13,7 @@ import kotlinx.android.synthetic.main.item_address_layout.view.*
 import pro.kaspiotr.ecommercemobileapp.R
 import pro.kaspiotr.ecommercemobileapp.models.Address
 import pro.kaspiotr.ecommercemobileapp.ui.activities.AddEditAddressActivity
+import pro.kaspiotr.ecommercemobileapp.ui.activities.CheckoutActivity
 import pro.kaspiotr.ecommercemobileapp.utils.Constants
 
 open class AddressListAdapter(
@@ -44,11 +45,8 @@ open class AddressListAdapter(
 
             if (selectAddress) {
                 holder.itemView.setOnClickListener {
-                    Toast.makeText(
-                        context,
-                        "Selected address : ${model.address}, ${model.zipCode}",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    val intent = Intent(context, CheckoutActivity::class.java)
+                    context.startActivity(intent)
                 }
             }
         }
