@@ -11,10 +11,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
-import pro.kaspiotr.ecommercemobileapp.models.Address
-import pro.kaspiotr.ecommercemobileapp.models.CartItem
-import pro.kaspiotr.ecommercemobileapp.models.Product
-import pro.kaspiotr.ecommercemobileapp.models.User
+import pro.kaspiotr.ecommercemobileapp.models.*
 import pro.kaspiotr.ecommercemobileapp.ui.activities.*
 import pro.kaspiotr.ecommercemobileapp.ui.fragments.DashboardFragment
 import pro.kaspiotr.ecommercemobileapp.ui.fragments.ProductsFragment
@@ -511,6 +508,23 @@ class FirestoreClass {
                 Log.e(
                     activity.javaClass.simpleName,
                 "Error while deleting the address.",
+                    e
+                )
+            }
+    }
+
+    fun placeOrder(activity: CheckoutActivity, order: Order) {
+        mFirestore.collection(Constants.ORDERS)
+            .document()
+            .set(order, SetOptions.merge())
+            .addOnSuccessListener {
+                activity.orderPlacedSuccess()
+            }
+            .addOnFailureListener { e ->
+                activity.hideProgressDialog()
+                Log.e(
+                    activity.javaClass.simpleName,
+                    "Error while placing an order.",
                     e
                 )
             }
