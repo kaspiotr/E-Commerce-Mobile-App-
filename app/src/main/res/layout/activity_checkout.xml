@@ -133,7 +133,7 @@
                     tools:text="XYZ" />
 
                 <pro.kaspiotr.ecommercemobileapp.utils.CustomTextView
-                    android:id="@+id/tv_mobile_number"
+                    android:id="@+id/tv_checkout_mobile_number"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/address_details_marginTop"
