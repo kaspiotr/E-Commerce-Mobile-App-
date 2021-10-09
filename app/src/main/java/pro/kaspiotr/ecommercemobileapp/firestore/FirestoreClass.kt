@@ -337,6 +337,9 @@ class FirestoreClass {
                     is CartListActivity -> {
                         activity.successCartItemsList(list)
                     }
+                    is CheckoutActivity -> {
+                        activity.successCartItemsList(list)
+                    }
                 }
             }
             .addOnFailureListener { e ->
@@ -344,12 +347,15 @@ class FirestoreClass {
                     is CartListActivity -> {
                         activity.hideProgressDialog()
                     }
+                    is CheckoutActivity -> {
+                        activity.hideProgressDialog()
+                    }
                 }
                 Log.e(activity.javaClass.simpleName, "Error while getting the cart list items.", e)
             }
     }
 
-    fun getAllProductsList(activity: CartListActivity) {
+    fun getAllProductsList(activity: Activity) {
         mFirestore.collection(Constants.PRODUCTS)
             .get()
             .addOnSuccessListener { document ->
@@ -361,10 +367,25 @@ class FirestoreClass {
                     productsList.add(product)
                 }
 
-                activity.successProductsListFromFirestore(productsList)
+                when (activity) {
+                    is CartListActivity -> {
+                        activity.successProductsListFromFirestore(productsList)
+                    }
+                    is CheckoutActivity -> {
+                        activity.successProductsListFromFirestore(productsList)
+                    }
+                }
             }
             .addOnFailureListener { e ->
-                activity.hideProgressDialog()
+                when (activity) {
+                    is CartListActivity -> {
+                        activity.hideProgressDialog()
+                    }
+                    is CheckoutActivity -> {
+                        activity.hideProgressDialog()
+                    }
+                }
+
                 Log.e("Get Product List", "Error while getting all products list.", e)
             }
     }

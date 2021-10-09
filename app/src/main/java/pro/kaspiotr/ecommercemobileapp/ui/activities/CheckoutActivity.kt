@@ -1,15 +1,19 @@
 package pro.kaspiotr.ecommercemobileapp.ui.activities
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import kotlinx.android.synthetic.main.activity_checkout.*
 import pro.kaspiotr.ecommercemobileapp.R
+import pro.kaspiotr.ecommercemobileapp.firestore.FirestoreClass
 import pro.kaspiotr.ecommercemobileapp.models.Address
+import pro.kaspiotr.ecommercemobileapp.models.CartItem
+import pro.kaspiotr.ecommercemobileapp.models.Product
 import pro.kaspiotr.ecommercemobileapp.utils.Constants
 
-class CheckoutActivity : AppCompatActivity() {
+class CheckoutActivity : BaseActivity() {
 
     private var mAddressDetails: Address? = null
+    private lateinit var mProductList: ArrayList<Product>
+    private lateinit var mCartItemsList: ArrayList<CartItem>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,6 +35,27 @@ class CheckoutActivity : AppCompatActivity() {
             }
             tv_checkout_mobile_number.text = mAddressDetails?.mobileNumber
         }
+
+        getProductsList()
+    }
+
+    fun successProductsListFromFirestore(productsList: ArrayList<Product>) {
+        mProductList = productsList
+        getCartItemsList()
+    }
+
+    fun successCartItemsList(cartList: ArrayList<CartItem>) {
+        hideProgressDialog()
+        mCartItemsList = cartList
+    }
+
+    private fun getProductsList() {
+        showProgressDialog(resources.getString(R.string.please_wait))
+        FirestoreClass().getAllProductsList(this@CheckoutActivity)
+    }
+
+    private fun getCartItemsList() {
+        FirestoreClass().getCartList(this@CheckoutActivity)
     }
 
     private fun setUpActionBar() {
