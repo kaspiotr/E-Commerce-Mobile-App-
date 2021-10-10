@@ -14,6 +14,7 @@ import com.google.firebase.storage.StorageReference
 import pro.kaspiotr.ecommercemobileapp.models.*
 import pro.kaspiotr.ecommercemobileapp.ui.activities.*
 import pro.kaspiotr.ecommercemobileapp.ui.fragments.DashboardFragment
+import pro.kaspiotr.ecommercemobileapp.ui.fragments.OrdersFragment
 import pro.kaspiotr.ecommercemobileapp.ui.fragments.ProductsFragment
 import pro.kaspiotr.ecommercemobileapp.utils.Constants
 
@@ -565,4 +566,28 @@ class FirestoreClass {
             }
     }
 
+    fun getMyOrdersList(fragment: OrdersFragment) {
+        mFirestore.collection(Constants.ORDERS)
+            .whereEqualTo(Constants.USER_ID, getCurrentUserID())
+            .get()
+            .addOnSuccessListener { document ->
+                val list: ArrayList<Order> = ArrayList()
+
+                for (item in document.documents) {
+                    val orderItem = item.toObject(Order::class.java)!!
+                    orderItem.id = item.id
+                    list.add(orderItem)
+                }
+
+                fragment.populateOrdersListInUI(list)
+            }
+            .addOnFailureListener { e ->
+                fragment.hideProgressDialog()
+                Log.e(
+                    fragment.javaClass.simpleName,
+                    "Error while getting the orders list.",
+                    e
+                )
+            }
+    }
 }
