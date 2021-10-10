@@ -144,7 +144,8 @@ class CheckoutActivity : BaseActivity() {
                 mCartItemsList[0].image,
                 mSubtotal.toString(),
                 "10.0", // fixed shipping charge
-                mTotalAmount.toString()
+                mTotalAmount.toString(),
+                System.currentTimeMillis()
             )
 
             FirestoreClass().placeOrder(this, order)
