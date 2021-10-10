@@ -16,6 +16,7 @@ import pro.kaspiotr.ecommercemobileapp.ui.activities.*
 import pro.kaspiotr.ecommercemobileapp.ui.fragments.DashboardFragment
 import pro.kaspiotr.ecommercemobileapp.ui.fragments.OrdersFragment
 import pro.kaspiotr.ecommercemobileapp.ui.fragments.ProductsFragment
+import pro.kaspiotr.ecommercemobileapp.ui.fragments.SoldProductsFragment
 import pro.kaspiotr.ecommercemobileapp.utils.Constants
 
 class FirestoreClass {
@@ -601,4 +602,29 @@ class FirestoreClass {
                 )
             }
     }
+
+    fun getSoldProductsList(fragment: SoldProductsFragment) {
+        mFirestore.collection(Constants.SOLD_PRODUCTS)
+            .whereEqualTo(Constants.USER_ID, getCurrentUserID())
+            .get()
+            .addOnSuccessListener { document ->
+                val list: ArrayList<SoldProduct> = ArrayList()
+                for (item in document.documents) {
+                    val soldProduct = item.toObject(SoldProduct::class.java)!!
+                    soldProduct.id = item.id
+                    list.add(soldProduct)
+                }
+
+                fragment.successSoldProductsList(list)
+            }
+            .addOnFailureListener { e ->
+                fragment.hideProgressDialog()
+                Log.e(
+                    fragment.javaClass.simpleName,
+                    "Error while getting the list of sold products.",
+                    e
+                )
+            }
+    }
+
 }
