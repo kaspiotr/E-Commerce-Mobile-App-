@@ -43,6 +43,7 @@ object Constants {
     const val ADD_ADDRESS_REQUEST_CODE: Int = 121
     const val EXTRA_SELECTED_ADDRESS: String = "extra_selected_address"
     const val STOCK_QUANTITY: String = "stock_quantity"
+    const val EXTRA_MY_ORDER_DETAILS: String = "extra_my_order_details"
 
     fun showImageChooser(activity: Activity) {
         // An intent for launching the image selection of phone storage.
