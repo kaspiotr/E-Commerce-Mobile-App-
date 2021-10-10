@@ -9,6 +9,7 @@ import kotlinx.android.synthetic.main.fragment_orders.*
 import pro.kaspiotr.ecommercemobileapp.R
 import pro.kaspiotr.ecommercemobileapp.firestore.FirestoreClass
 import pro.kaspiotr.ecommercemobileapp.models.Order
+import pro.kaspiotr.ecommercemobileapp.ui.adapters.MyOrdersListAdapter
 
 class OrdersFragment : BaseFragment() {
 
@@ -36,6 +37,9 @@ class OrdersFragment : BaseFragment() {
 
             rv_my_order_items.layoutManager = LinearLayoutManager(activity)
             rv_my_order_items.setHasFixedSize(true)
+
+            val myOrdersListAdapter = MyOrdersListAdapter(requireActivity(), ordersList)
+            rv_my_order_items.adapter = myOrdersListAdapter
         } else {
             rv_my_order_items.visibility = View.GONE
             tv_no_orders_found.visibility = View.VISIBLE

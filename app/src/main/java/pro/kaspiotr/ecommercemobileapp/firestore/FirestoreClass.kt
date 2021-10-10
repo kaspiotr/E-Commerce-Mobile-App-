@@ -19,6 +19,7 @@ import pro.kaspiotr.ecommercemobileapp.ui.fragments.ProductsFragment
 import pro.kaspiotr.ecommercemobileapp.utils.Constants
 
 class FirestoreClass {
+
     private val mFirestore = FirebaseFirestore.getInstance()
 
     fun registerUser(activity: RegisterActivity, userInfo: User) {
