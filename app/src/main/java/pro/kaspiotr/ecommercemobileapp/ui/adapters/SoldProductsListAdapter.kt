@@ -1,6 +1,7 @@
 package pro.kaspiotr.ecommercemobileapp.ui.adapters
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,6 +9,8 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.item_list_layout.view.*
 import pro.kaspiotr.ecommercemobileapp.R
 import pro.kaspiotr.ecommercemobileapp.models.SoldProduct
+import pro.kaspiotr.ecommercemobileapp.ui.activities.SoldProductDetailsActivity
+import pro.kaspiotr.ecommercemobileapp.utils.Constants
 import pro.kaspiotr.ecommercemobileapp.utils.GlideLoader
 
 open class SoldProductsListAdapter(
@@ -39,6 +42,12 @@ open class SoldProductsListAdapter(
             holder.itemView.tv_item_price.text = "$${model.price}"
 
             holder.itemView.ib_delete_product.visibility = View.GONE
+
+            holder.itemView.setOnClickListener {
+                val intent = Intent(context, SoldProductDetailsActivity::class.java)
+                intent.putExtra(Constants.EXTRA_SOLD_PRODUCT_DETAILS, model)
+                context.startActivity(intent)
+            }
         }
     }
 
