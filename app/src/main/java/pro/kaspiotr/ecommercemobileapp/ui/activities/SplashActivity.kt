@@ -8,6 +8,7 @@ import android.os.Handler
 import android.view.WindowInsets
 import android.view.WindowManager
 import pro.kaspiotr.ecommercemobileapp.R
+import pro.kaspiotr.ecommercemobileapp.firestore.FirestoreClass
 
 class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,11 +28,15 @@ class SplashActivity : AppCompatActivity() {
         @Suppress("DEPRECATION")
         Handler().postDelayed(
             {
-                // Launch the Main Activity
-                startActivity(Intent(this@SplashActivity, DashboardActivity::class.java))
+                val currentUserID = FirestoreClass().getCurrentUserID()
+                if (currentUserID.isNotEmpty()) {
+                    startActivity(Intent(this@SplashActivity, DashboardActivity::class.java))
+                } else {
+                    startActivity(Intent(this@SplashActivity, LoginActivity::class.java))
+                }
                 finish()
             },
-            1500
+            2500
         )
     }
 }

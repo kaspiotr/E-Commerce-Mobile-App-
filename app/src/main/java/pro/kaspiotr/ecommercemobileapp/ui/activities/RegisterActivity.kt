@@ -122,10 +122,6 @@ class RegisterActivity : BaseActivity() {
                             )
 
                             FirestoreClass().registerUser(this@RegisterActivity, user)
-
-//                            FirebaseAuth.getInstance().signOut()
-//                            finish()
-
                         } else {
                             hideProgressDialog()
                             // If the registering is not successful then show error message.
