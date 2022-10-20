@@ -44,7 +44,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         hideProgressDialog()
 
         if (user.profileCompleted == 0) {
-            // If the user profile is incomplete the launch the UserProfileActvity
+            // If the user profile is incomplete the launch the UserProfileActivity
             val intent = Intent(this@LoginActivity, UserProfileActivity::class.java)
             intent.putExtra(Constants.EXTRA_USER_DETAILS, user)
             startActivity(intent)

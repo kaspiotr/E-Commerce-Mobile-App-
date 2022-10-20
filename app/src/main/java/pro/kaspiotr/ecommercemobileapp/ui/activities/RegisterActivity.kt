@@ -116,6 +116,7 @@ class RegisterActivity : BaseActivity() {
 
                             val user = User(
                                 firebaseUser.uid,
+                                "client",
                                 et_first_name.text.toString().trim { it  <= ' ' },
                                 et_last_name.text.toString().trim { it  <= ' ' },
                                 et_email.text.toString().trim { it  <= ' ' }
